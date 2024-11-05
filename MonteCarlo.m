@@ -1,4 +1,4 @@
-runs=10;
+runs=4;
 startingtime=0;
 Gimbal_offset_X(1)=0;
 Gimbal_offset_Y(1)=0;
@@ -8,9 +8,24 @@ a= nexttile;
 b= nexttile;
 c=nexttile;
 d=nexttile;
+k_gains_variation=[1,1.05,0.95,1.1,0.9,0.85,1.15,0.97,1.03,1.01];
+roll_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
+pitch_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
+yaw_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
 for i=1:runs
-    Gimbal_offset_X(2)=randn*0.0174533*0.33
-    Gimbal_offset_Y(2)=randn*0.0174533*0.33
+    %% edit comments based on what you are varying either: initial attitude, gimbal misalignment or gains
+    %%k_variation=k_gains_variation(1+mod(i,10));          
+    k_variation=1;
+    Gimbal_offset_X(2)=(randn*0.0174533*0.1);
+    %%Gimbal_offset_X(2)=0;
+    Gimbal_offset_Y(2)=(randn*0.0174533*0.1);
+    %%Gimbal_offset_Y(2)=0;
+    %%pitch_variation1=pitch_variation(1+mod(i,5));
+    %%roll_variation1=roll_variation(1+mod(i,5));
+    %%yaw_variation1=yaw_variation(1+mod(i,5));
+    pitch_variation1=0;
+    yaw_variation1=0;
+    roll_variation1=0;
     sim("sixdof.slx")
     Positionvector = load("Position.mat");
     Orientationvector= load("Orientation.mat");
