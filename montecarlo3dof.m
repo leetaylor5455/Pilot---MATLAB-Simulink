@@ -1,4 +1,4 @@
-runs=10;
+runs=30;
 startingtime=0;
 f1 = figure;
 tiledlayout(1,2);
