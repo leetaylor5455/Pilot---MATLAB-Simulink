@@ -1,4 +1,4 @@
-runs=15;
+runs=5;
 startingtime=0;
 Gimbal_offset_X(1)=0;
 Gimbal_offset_Y(1)=0;
@@ -22,6 +22,8 @@ Orientation_about_X= zeros(1000);
 Orientation_about_Y= zeros(1000);
 Orientation_about_Z=zeros(1000);
 time=zeros(1000);
+
+
 for i=1:runs
     %% edit comments based on what you are varying either: initial attitude, gimbal misalignment or gains
     k_variation=k_gains_variation(1+mod(i,10));          
