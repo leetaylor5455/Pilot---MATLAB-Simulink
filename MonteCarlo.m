@@ -3,13 +3,17 @@ startingtime=0;
 Gimbal_offset_X(1)=0;
 Gimbal_offset_Y(1)=0;
 f1 = figure;
-tiledlayout(1,6);
+tiledlayout(2,4);
 a= nexttile;
 b= nexttile;
 c=nexttile;
 d=nexttile;
 e=nexttile;
 f=nexttile;
+g=nexttile;
+h=nexttile;
+maxdistance=0;
+r=0;
 Imatrix=[0.06 0 0; 0 0.06 0; 0 0 0.04];
 k_gains_variation=[1,1.05,0.95,1.1,0.9,0.85,1.15,0.97,1.03,1.01];
 roll_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
@@ -26,12 +30,16 @@ time=zeros(1000);
 
 for i=1:runs
     %% edit comments based on what you are varying either: initial attitude, gimbal misalignment or gains
-    k_variation=k_gains_variation(1+mod(i,10));          
-    %%k_variation=1;
+    %%k_variation=k_gains_variation(1+mod(i,10));          
+    k_variation=1;
     %%gimbal_offset_yaw=0;
-    gimbal_offset_yaw=(randn*0.0174533*0.1);
+    gimbal_offset_yaw=(randn*0.0174533*0.5);
+    %%initialmisalignment1=(randn*0.0174533*0.5);
+    %%initialmisalignment2=(randn*0.0174533*0.5);
+    initialmisalignment1=0;
+    initialmisalignment2=0;
     %%gimbal_offset_pitch=0;
-    gimbal_offset_pitch=(randn*0.0174533*0.1);
+    gimbal_offset_pitch=(randn*0.0174533*0.5);
     %%pitch_variation1=pitch_variation(1+mod(i,5));
     %%roll_variation1=roll_variation(1+mod(i,5));
     %%yaw_variation1=yaw_variation(1+mod(i,5));
@@ -72,9 +80,23 @@ for i=1:runs
     axes(f)
     hold on 
     plot(timeg,gimbalpitch)
-    
+    yline(gimbal_offset_pitch*-360/(2*pi))
+    axes(g)
+    hold on
+    plot(Position_X,Position_Y)
+    axes(h)
+    hold on
+    plot(Position_X,Position_Y)
+    distance(i)=sqrt((Position_X(end)^2)+(Position_Y(end)^2)) ;
+    if distance(i)> maxdistance
+        maxdistance=distance(i);
+    else
+        maxdistance=maxdistance;
+    end
    
 end
+meandistance=sum(distance,"all");
+meandistance=meandistance/runs;
 axes(d)
 title(sprintf('%d Simulated Monte-Carlo Flight Trajectories',runs))
 xlabel('Downrange (m)')
@@ -101,3 +123,25 @@ axes(f)
 title('gimbal angle pitch')
 xlabel('Time(s)')
 ylabel('Orientation (degrees)')
+axes(g)
+title('view from above')
+xlabel('x distance m)')
+ylabel('y distance m')
+axes(h)
+hold on
+r=maxdistance;
+th = 0:pi/50:2*pi;
+xunit = r.*cos(th) ;
+yunit = r.*sin(th);
+plot(xunit, yunit);
+r=meandistance;
+th = 0:pi/50:2*pi;
+xunit = r .* cos(th) ;
+yunit = r .* sin(th);
+plot(xunit, yunit);
+title('view from above')
+xlabel('x distance m')
+ylabel('y distance m')
+legend('maximum rocket dispersion','mean rocket dispersion')
+
+
