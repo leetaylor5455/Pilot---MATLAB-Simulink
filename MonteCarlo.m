@@ -14,18 +14,33 @@ g=nexttile;
 h=nexttile;
 maxdistance=0;
 r=0;
-Imatrix=[0.06 0 0; 0 0.06 0; 0 0 0.04];
+Imatrix=[0.05 0 0; 0 0.05 0; 0 0 1000000000000];
 k_gains_variation=[1,1.05,0.95,1.1,0.9,0.85,1.15,0.97,1.03,1.01];
 roll_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
 pitch_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
 yaw_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
-Position_X = zeros(1000);
-Position_Y = zeros(1000);
-Position_Z = zeros(1000);
-Orientation_about_X= zeros(1000);
-Orientation_about_Y= zeros(1000);
-Orientation_about_Z=zeros(1000);
+Position_X = zeros(10);
+Position_Y = zeros(10);
+Position_Z = zeros(10);
+Orientation_about_X= zeros(10);
+Orientation_about_Y= zeros(10);
+Orientation_about_Z=zeros(10);
 time=zeros(1000);
+drageq=0.5*1.2256;
+A=[0 1 0
+   0 0 0
+   1 0 0];
+B=[0
+   1
+   0];
+Qx=[10 0 0
+    0 1 0
+    0 0 1];
+Qu=0.005;
+K=lqr(A, B, Qx, Qu)
+size(B);
+size(K);
+
 
 
 for i=1:runs
