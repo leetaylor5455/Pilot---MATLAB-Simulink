@@ -14,7 +14,9 @@ g=nexttile;
 h=nexttile;
 maxdistance=0;
 r=0;
-Imatrix=[0.05 0 0; 0 0.05 0; 0 0 1000000000000];
+m=1.1;
+Ixy = 0.25*m*0.08^2 + 0.33*m*0.5^2; % Approximate inertia of rocket (shortened because mass is focused)
+Imatrix=[Ixy 0 0; 0 Ixy 0; 0 0 1000000000000];
 k_gains_variation=[1,1.05,0.95,1.1,0.9,0.85,1.15,0.97,1.03,1.01];
 roll_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
 pitch_variation=[-0.0349066,-0.0174533,0,0.0174533,0.0349066];
@@ -79,7 +81,8 @@ for i=1:runs
     timeg=gimbal_angle_yaw.angley(1,1:3310);
     axes(a)
     hold on
-    plot(time,Orientation_about_X)
+    txt = ['Offset Pitch: ',num2str(gimbal_offset_pitch*-360/(2*pi))];
+    plot(time,Orientation_about_X, 'DisplayName', txt)
     axes(b)
     hold on
     plot(time,Orientation_about_Y)
@@ -122,6 +125,7 @@ axes(a)
 title('Pitch')
 xlabel('Time(s)')
 ylabel('Orientation (degrees)')
+legend show
 axes(b)
 title('Yaw')
 xlabel('Time(s)')
