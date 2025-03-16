@@ -2,6 +2,7 @@ runs=5;
 startingtime=0;
 Gimbal_offset_X(1)=0;
 Gimbal_offset_Y(1)=0;
+%{
 f1 = figure;
 tiledlayout(2,4);
 a= nexttile;
@@ -12,7 +13,10 @@ e=nexttile;
 f=nexttile;
 g=nexttile;
 h=nexttile;
+%}
 maxdistance=0;
+tf_numerator=[-0.019636793518768,11.962654541795105,-5.855403532197762e+03,1.247400208780878e+06,-1.833141101119383e+08,2.413619277292154e+10];
+tf_denominator=[1,1.152990204495266e+02,5.794108238499203e+04,5.232048480801443e+06,5.591005586283544e+08,2.241761397794401e+10];
 r=0;
 m=1.1;
 Ixy = 0.25*m*0.08^2 + 0.33*m*0.5^2; % Approximate inertia of rocket (shortened because mass is focused)
@@ -42,6 +46,7 @@ Qu=0.005;
 K=lqr(A, B, Qx, Qu)
 size(B);
 size(K);
+
 
 
 
